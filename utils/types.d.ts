@@ -3,7 +3,7 @@ export type Note = {
     title: string,
     description: string,
     user_id: string,
-    onSelectNote: (id: string) => void,
+    onSelectNote?: (id: string) => void,
     
 }
 
