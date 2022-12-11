@@ -9,20 +9,21 @@ import { useNotesContext } from "../../context/NotesContext";
 import { Note } from "../../utils/types";
 
 function MainContent(note: Note) {
-  const { title, description } = note;
-  const { currentNote } = useNotesContext();
+  // const { title, description } = note;
+  const { currentNote, updateNote } = useNotesContext();
 
-  const [noteData, setNoteData] = useState({ title, description });
+  // const [noteData, setNoteData] = useState({ title, description });
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    setNoteData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    // setNoteData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    updateNote(e.target.name, e.target.value);
   }
 
-  useEffect(() => {
-    setNoteData(currentNote ?? { title: "", description: "" });
-  }, [currentNote]);
+  // useEffect(() => {
+  //   setNoteData(currentNote ?? { title: "", description: "" });
+  // }, [currentNote]);
 
   return (
     <div className="flex flex-1 flex-col bg-zinc-500 gap-y-2">
@@ -32,7 +33,7 @@ function MainContent(note: Note) {
         name="title"
         placeholder="Enter title"
         className="bg-transparent border-b-[1px] outline-none mx-2 text-2xl"
-        value={noteData.title}
+        value={currentNote?.title}
         onChange={handleChange}
       />
       {/* Tags  */}
@@ -43,7 +44,7 @@ function MainContent(note: Note) {
         name="description"
         placeholder="Enter the description here"
         className="flex-1 bg-transparent outline-none mx-2"
-        value={noteData.description}
+        value={currentNote?.description}
         onChange={handleChange}
       ></textarea>
     </div>

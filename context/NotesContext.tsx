@@ -10,6 +10,7 @@ interface NotesContextInitialData {
   setCurrNote: (note_id: string) => void;
   createNewNote: () => void;
   deleteNote: (note_id: string) => void;
+  updateNote: (name: string, value: string) => void;
 }
 
 export const NotesContext = createContext<NotesContextInitialData>(
@@ -25,7 +26,7 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
   const { userDetails } = useAuthContext();
 
   const [notes, setNotes] = useState<Note[]>([]);
-  const [currentNote, setCurrentNote] = useState<Note | null>(null);
+  const [currentNote, setCurrentNote] = useState<Note>({} as Note);
 
   function fetchAllNotes(token: string) {
     NotesService.fetchAllNotes(token)
@@ -73,11 +74,17 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  function updateNote(name: string, value: string) {
+    setCurrentNote((prev) => ({ ...prev, [name]: value }));
+  }
+
   function setCurrNote(note_id: string) {
     const foundNote = notes.find((elem) => {
       return elem.note_id == note_id;
     });
-    if (foundNote) setCurrentNote(foundNote);
+    if (foundNote) {
+      setCurrentNote(foundNote);
+    }
   }
 
   useEffect(() => {
@@ -90,7 +97,14 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <NotesContext.Provider
-      value={{ notes, currentNote, setCurrNote, createNewNote, deleteNote }}
+      value={{
+        notes,
+        currentNote,
+        setCurrNote,
+        createNewNote,
+        deleteNote,
+        updateNote,
+      }}
     >
       {children}
     </NotesContext.Provider>

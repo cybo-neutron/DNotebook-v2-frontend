@@ -9,7 +9,7 @@ export type SidebarNoteProps = Note & {
 };
 
 function SidebarNote(props: SidebarNoteProps) {
-  const { setCurrNote, deleteNote } = useNotesContext();
+  const { currentNote, setCurrNote, deleteNote } = useNotesContext();
 
   return (
     <div
@@ -17,13 +17,17 @@ function SidebarNote(props: SidebarNoteProps) {
       ${props.isActive ? "bg-lime-700" : "bg-zinc-500 hover:bg-lime-300 "}
       `}
       onClick={() => {
-        setCurrNote(props.note_id);
+        if (props.note_id) setCurrNote(props.note_id);
       }}
     >
       <div>
-        <div className="font-semibold">{props.title}</div>
+        <div className="font-semibold">
+          {props.isActive ? currentNote?.title : props.title}
+        </div>
         <div className="font-light text-sm">
-          {props.description?.substring(0, 20)}
+          {props.isActive
+            ? currentNote?.description.substring(0, 20)
+            : props.description.substring(0, 20)}
         </div>
       </div>
       <div className="flex items-center">
