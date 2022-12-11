@@ -9,6 +9,7 @@ interface NotesContextInitialData {
   currentNote: Note | null;
   setCurrNote: (note_id: string) => void;
   createNewNote: () => void;
+  deleteNote: (note_id: string) => void;
 }
 
 export const NotesContext = createContext<NotesContextInitialData>(
@@ -57,8 +58,18 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
         .catch((err) => {
           console.log(err);
         });
+    }
+  }
 
-      // console.log("Creating new note...");
+  function deleteNote(note_id: string) {
+    const token = TokenService.getToken();
+    if (token) {
+      NotesService.deleteNote(note_id, token)
+        .then((res) => {
+          console.log(res);
+          fetchAllNotes(token);
+        })
+        .catch((err) => {});
     }
   }
 
@@ -79,7 +90,7 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <NotesContext.Provider
-      value={{ notes, currentNote, setCurrNote, createNewNote }}
+      value={{ notes, currentNote, setCurrNote, createNewNote, deleteNote }}
     >
       {children}
     </NotesContext.Provider>

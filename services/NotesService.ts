@@ -27,6 +27,16 @@ export default class NotesService{
         return res;
     }
 
+    public static async deleteNote(note_id: string, authToken: string) {
+
+        const res = await axios.delete(`${URL}api/notes/delete/${note_id}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        });
+        return res;
+    }
+
 
 
 }

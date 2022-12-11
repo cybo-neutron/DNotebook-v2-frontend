@@ -9,7 +9,7 @@ export type SidebarNoteProps = Note & {
 };
 
 function SidebarNote(props: SidebarNoteProps) {
-  const { setCurrNote } = useNotesContext();
+  const { setCurrNote, deleteNote } = useNotesContext();
 
   return (
     <div
@@ -27,7 +27,12 @@ function SidebarNote(props: SidebarNoteProps) {
         </div>
       </div>
       <div className="flex items-center">
-        <AiFillDelete className="hover:text-red-600 text-lg text-zinc-400 cursor-pointer " />
+        <AiFillDelete
+          className="hover:text-red-600 text-lg text-zinc-400 cursor-pointer "
+          onClick={() => {
+            deleteNote(props.note_id);
+          }}
+        />
       </div>
     </div>
   );

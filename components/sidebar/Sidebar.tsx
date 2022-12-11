@@ -22,7 +22,7 @@ function Sidebar({ allNotes }: SidebarProps) {
       </button>
 
       {/* notes section  */}
-      <div className="overflow-y-scroll">
+      <div className=" h-full overflow-y-scroll">
         {allNotes.map((item: Note) => {
           return (
             <SidebarNote
