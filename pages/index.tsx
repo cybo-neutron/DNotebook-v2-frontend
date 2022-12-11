@@ -15,6 +15,8 @@ export default function Home() {
     //if user is not Logged in then redirect user to Login page
     if (!isLoggedIn) {
       router.push("/auth/login");
+    } else {
+      router.push("/notes");
     }
   }, [isLoggedIn]);
 

@@ -1,37 +1,34 @@
+import { useRouter } from "next/router";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MainContent from "../../components/main-content/MainContent";
 import NoteCard from "../../components/NoteCard";
 import Sidebar from "../../components/sidebar/Sidebar";
+import { useAuthContext } from "../../context/AuthContext";
+import { useNotesContext } from "../../context/NotesContext";
 import { Note } from "../../utils/types";
 
 function Home() {
-  const testNotes: Note[] = [
-    {
-      title: "title1",
-      description: "description1 what a heavy description",
-      id: "1",
-      user_id: "",
-    },
-    { title: "title2", description: "description2", id: "2", user_id: "" },
-    { title: "title3", description: "description3", id: "3", user_id: "" },
-  ];
+  const { notes } = useNotesContext();
+  const { isLoggedIn } = useAuthContext();
 
-  const [currentNoteId, setCurrentNoteId] = useState<null | string>(null);
+  const router = useRouter();
 
   const defaultNote: Note = {
     title: "",
     description: "",
-    id: "",
+    note_id: "",
     user_id: "",
-    onSelectNote: onSelectNote,
   };
+
   const [currentNote, setCurrentNote] = useState<Note>(defaultNote);
 
-  function onSelectNote(id: string) {
-    setCurrentNoteId(id);
-    setCurrentNote((prev) => testNotes.filter((item) => item.id === id)[0]);
-  }
+  //if not logged in redirect to login page
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push("/auth/login");
+    }
+  }, [isLoggedIn]);
 
   return (
     <div>
@@ -39,11 +36,7 @@ function Home() {
 
       {/* Body */}
       <div className="flex">
-        <Sidebar
-          allNotes={testNotes}
-          onSelectNote={onSelectNote}
-          currentNoteId={currentNoteId}
-        />
+        <Sidebar allNotes={notes} />
         <MainContent {...currentNote} />
       </div>
       {/* Footer */}

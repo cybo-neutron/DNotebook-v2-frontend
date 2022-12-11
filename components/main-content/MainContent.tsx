@@ -5,11 +5,12 @@ import React, {
   useState,
 } from "react";
 import CreatableSelect from "react-select/creatable";
+import { useNotesContext } from "../../context/NotesContext";
 import { Note } from "../../utils/types";
 
 function MainContent(note: Note) {
   const { title, description } = note;
-  // console.log(title);
+  const { currentNote } = useNotesContext();
 
   const [noteData, setNoteData] = useState({ title, description });
 
@@ -20,8 +21,8 @@ function MainContent(note: Note) {
   }
 
   useEffect(() => {
-    setNoteData(note);
-  }, [note]);
+    setNoteData(currentNote ?? { title: "", description: "" });
+  }, [currentNote]);
 
   return (
     <div className="flex flex-1 flex-col bg-zinc-500 gap-y-2">

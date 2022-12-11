@@ -56,7 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const user_id = res.data._id;
           const email = res.data.email;
           const name = res.data.name;
-          console.log({ user_id, email, name });
+          // console.log({ user_id, email, name });
           setUserDetails({ name, email, user_id });
           setLoggedIn(true);
         })
