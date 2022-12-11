@@ -8,6 +8,7 @@ interface NotesContextInitialData {
   notes: Note[];
   currentNote: Note | null;
   setCurrNote: (note_id: string) => void;
+  createNewNote: () => void;
 }
 
 export const NotesContext = createContext<NotesContextInitialData>(
@@ -25,8 +26,8 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [currentNote, setCurrentNote] = useState<Note | null>(null);
 
-  function fetchAllNotes(user_id: string, token: string) {
-    NotesService.fetchAllNotes(user_id, token)
+  function fetchAllNotes(token: string) {
+    NotesService.fetchAllNotes(token)
       .then((res) => {
         setNotes(
           res.data.map((elem: any) => {
@@ -44,6 +45,23 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
       });
   }
 
+  function createNewNote() {
+    const token = TokenService.getToken();
+    if (token) {
+      NotesService.createNewNote(token)
+        .then((res) => {
+          console.log(res.data._id);
+          fetchAllNotes(token);
+          setCurrentNote(res.data._id);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      // console.log("Creating new note...");
+    }
+  }
+
   function setCurrNote(note_id: string) {
     const foundNote = notes.find((elem) => {
       return elem.note_id == note_id;
@@ -54,13 +72,15 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const token = TokenService.getToken();
     if (token) {
-      fetchAllNotes(userDetails.user_id, token);
+      fetchAllNotes(token);
       if (notes.length > 0) setCurrNote(notes[0].note_id);
     }
   }, []);
 
   return (
-    <NotesContext.Provider value={{ notes, currentNote, setCurrNote }}>
+    <NotesContext.Provider
+      value={{ notes, currentNote, setCurrNote, createNewNote }}
+    >
       {children}
     </NotesContext.Provider>
   );

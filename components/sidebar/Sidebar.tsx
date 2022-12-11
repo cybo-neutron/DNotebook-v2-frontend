@@ -9,17 +9,20 @@ type SidebarProps = {
 };
 
 function Sidebar({ allNotes }: SidebarProps) {
-  const { currentNote } = useNotesContext();
+  const { currentNote, createNewNote } = useNotesContext();
   const { logout } = useAuthContext();
 
   return (
     <div className="bg-gradient-to-tl from-zinc-700 via-zinc-700 to-zinc-600 w-4/12 h-screen flex flex-col">
-      <button className="bg-gradient-to-l from-lime-600 to-lime-500 rounded-sm my-2 mx-2 ">
+      <button
+        className="bg-gradient-to-l from-lime-600 to-lime-500 rounded-sm my-2 mx-2 "
+        onClick={createNewNote}
+      >
         New note
       </button>
 
       {/* notes section  */}
-      <div>
+      <div className="overflow-y-scroll">
         {allNotes.map((item: Note) => {
           return (
             <SidebarNote
