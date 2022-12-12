@@ -64,7 +64,8 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
         .then((res) => {
           console.log(res.data._id);
           fetchAllNotes(token as string);
-          setFirstCurrentNote();
+          setCurrNote(res.data._id);
+          // setFirstCurrentNote();
         })
         .catch((err) => {
           console.log(err);
@@ -74,7 +75,7 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
 
   const setFirstCurrentNote = useCallback(() => {
     if (notes && notes.length > 0) setCurrNote(notes[0].note_id);
-  }, [notes]);
+  }, [notes.length]);
 
   function deleteNote(note_id: string) {
     const token = TokenService.getToken();
@@ -93,7 +94,7 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
     if (token) {
       NotesService.updatNote(currentNote.note_id, token, name, value)
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -129,6 +130,14 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
       setFirstCurrentNote();
     }
   }, []);
+
+  let notesRendered = false;
+  useEffect(() => {
+    if (!notesRendered && notes.length > 0) {
+      setCurrNote(notes[0].note_id);
+      notesRendered = true;
+    }
+  }, [notes]);
 
   return (
     <NotesContext.Provider

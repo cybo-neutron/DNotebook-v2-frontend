@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useState, useEffect } from "react";
 import MainContent from "../../components/main-content/MainContent";
+import LoadingBar from "../../components/misc/LoadingBar";
 import NoteCard from "../../components/NoteCard";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { useAuthContext } from "../../context/AuthContext";
@@ -29,6 +30,10 @@ function Home() {
       router.push("/auth/login");
     }
   }, [isLoggedIn]);
+
+  if (!isLoggedIn) {
+    return <LoadingBar />;
+  }
 
   return (
     <div>

@@ -37,7 +37,7 @@ function Sidebar({ allNotes }: SidebarProps) {
 
       {/* logout */}
       <button
-        className="bg-red-600 mx-2 rounded-sm mt-auto mb-2 hover:bg-red-500 font-bold text-zinc-100"
+        className="bg-orange-600 mx-2 rounded-sm mt-auto mb-2 hover:bg-orange-500 font-bold text-zinc-100"
         onClick={logout}
       >
         Logout
