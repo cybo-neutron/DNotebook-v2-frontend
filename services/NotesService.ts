@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios"
+import { Note } from "../utils/types";
 
 const URL = "http://localhost:5000/"
 
@@ -37,7 +38,20 @@ export default class NotesService{
         return res;
     }
 
+    public static async updatNote(note_id:string,authToken:string,name:string,value:string) {
+        
+        const res = await axios.patch(`${URL}api/notes/update/${note_id}`,
+            {
+                [name]:value
+            },
+            {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        });
 
+        return res;
+    }
 
 }
 

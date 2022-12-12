@@ -14,7 +14,7 @@ function SidebarNote(props: SidebarNoteProps) {
   return (
     <div
       className={`px-2 py-1 mb-1 mr-[1px] shadow-sm rounded-sm flex justify-between cursor-pointer 
-      ${props.isActive ? "bg-lime-700" : "bg-zinc-500 hover:bg-lime-300 "}
+      ${props.isActive ? "bg-lime-700" : "bg-zinc-700 hover:bg-lime-300 "}
       `}
       onClick={() => {
         if (props.note_id) setCurrNote(props.note_id);

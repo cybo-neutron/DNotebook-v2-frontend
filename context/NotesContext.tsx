@@ -1,16 +1,27 @@
-import { useContext, createContext, useState, useEffect } from "react";
+import {
+  useContext,
+  createContext,
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+} from "react";
 import { useAuthContext } from "./AuthContext";
 import NotesService from "../services/NotesService";
 import TokenService from "../utils/TokenService";
 import { Note } from "../utils/types";
+import { debounce } from "../utils/Debounce";
 
 interface NotesContextInitialData {
   notes: Note[];
   currentNote: Note | null;
+  setCurrentNote: Dispatch<SetStateAction<Note>>;
   setCurrNote: (note_id: string) => void;
   createNewNote: () => void;
   deleteNote: (note_id: string) => void;
   updateNote: (name: string, value: string) => void;
+  setCurrentNoteData: (name: string, value: string) => void;
 }
 
 export const NotesContext = createContext<NotesContextInitialData>(
@@ -24,7 +35,6 @@ export const useNotesContext = () => {
 
 export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
   const { userDetails } = useAuthContext();
-
   const [notes, setNotes] = useState<Note[]>([]);
   const [currentNote, setCurrentNote] = useState<Note>({} as Note);
 
@@ -53,8 +63,8 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
       NotesService.createNewNote(token)
         .then((res) => {
           console.log(res.data._id);
-          fetchAllNotes(token);
-          setCurrentNote(res.data._id);
+          fetchAllNotes(token as string);
+          setFirstCurrentNote();
         })
         .catch((err) => {
           console.log(err);
@@ -62,22 +72,46 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  const setFirstCurrentNote = useCallback(() => {
+    if (notes && notes.length > 0) setCurrNote(notes[0].note_id);
+  }, [notes]);
+
   function deleteNote(note_id: string) {
     const token = TokenService.getToken();
-    if (token) {
+    if (token != null) {
       NotesService.deleteNote(note_id, token)
         .then((res) => {
           console.log(res);
-          fetchAllNotes(token);
+          fetchAllNotes(token as string);
         })
         .catch((err) => {});
     }
   }
 
   function updateNote(name: string, value: string) {
-    setCurrentNote((prev) => ({ ...prev, [name]: value }));
+    const token = TokenService.getToken();
+    if (token) {
+      NotesService.updatNote(currentNote.note_id, token, name, value)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 
+  //Updates the values of current note on typing in the MainContent
+  function setCurrentNoteData(name: string, value: string) {
+    setCurrentNote((prev) => ({ ...prev, [name]: value }));
+    const currNoteIndex = notes.findIndex(
+      (elem) => elem.note_id == currentNote.note_id
+    );
+    if (name === "title") notes[currNoteIndex].title = value;
+    if (name === "description") notes[currNoteIndex].description = value;
+  }
+
+  //updates the current note on clicking the sidebar
   function setCurrNote(note_id: string) {
     const foundNote = notes.find((elem) => {
       return elem.note_id == note_id;
@@ -91,7 +125,8 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
     const token = TokenService.getToken();
     if (token) {
       fetchAllNotes(token);
-      if (notes.length > 0) setCurrNote(notes[0].note_id);
+      // if (notes.length > 0) setCurrNote(notes[0].note_id);
+      setFirstCurrentNote();
     }
   }, []);
 
@@ -104,6 +139,8 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
         createNewNote,
         deleteNote,
         updateNote,
+        setCurrentNote,
+        setCurrentNoteData,
       }}
     >
       {children}
