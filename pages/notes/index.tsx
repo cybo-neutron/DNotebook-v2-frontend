@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 import { useState, useEffect } from "react";
@@ -38,6 +39,10 @@ function Home() {
   return (
     <div>
       {/* Body */}
+
+      <Head>
+        <title>DNotebook</title>
+      </Head>
       <div className="flex">
         <Sidebar allNotes={notes} />
         <MainContent {...currentNote} />

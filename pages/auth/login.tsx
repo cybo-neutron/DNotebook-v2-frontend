@@ -59,6 +59,7 @@ function login() {
                 type="text"
                 name="email"
                 ref={emailRef}
+                defaultValue="john@email.com"
                 className="bg-transparent border-b-[1px] border-zinc-500 text-zinc-300 outline-none "
               />
             </div>
@@ -70,6 +71,7 @@ function login() {
                 name="password"
                 className="bg-transparent border-b-[1px] border-zinc-500 text-zinc-300 outline-none"
                 ref={passRef}
+                defaultValue="john"
               />
               <div
                 onClick={toggleShowPassword}

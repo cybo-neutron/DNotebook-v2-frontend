@@ -46,7 +46,7 @@ function register() {
       <div className="w-full sm:w-1/2 lg:w-5/12 bg-zinc-800 flex justify-center items-center">
         <div className="w-full h-4/5 px-2 flex flex-col justify-center items-center text-zinc-300 ">
           <Head>
-            <title>Login</title>
+            <title>Register</title>
           </Head>
           <div className="text-3xl font-extrabold text-zinc-200">
             <UserIcon className="h-12 text-orange-400" />
