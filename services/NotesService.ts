@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios"
 import { Note } from "../utils/types";
 
-const URL = "http://localhost:5000/"
+const URL = "https://dnotebook-backend.onrender.com/"
 
 export default class NotesService{
 

@@ -39,7 +39,7 @@ function MainContent(note: Note) {
   );
 
   return (
-    <div className="flex flex-1 flex-col bg-zinc-800 text-white gap-y-2 w-full">
+    <div className="flex flex-1 flex-col bg-zinc-800 text-white gap-y-2 w-full py-2">
       {/* Title  */}
       <input
         type="text"

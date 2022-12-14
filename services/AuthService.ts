@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const URL = "http://localhost:5000/"
+const URL = "https://dnotebook-backend.onrender.com/"
 
 
 export const verifyUser = async (email: string | undefined, password: string | undefined) => {

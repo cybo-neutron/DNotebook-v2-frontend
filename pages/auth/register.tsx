@@ -41,7 +41,7 @@ function register() {
   return (
     <div className="w-screen h-screen flex  ">
       <div className="bg-zinc-700 h-full hidden sm:flex sm:w-1/2 lg:w-7/12">
-        <img src="/scenery3.jpg" alt="" className="h-full object-cover " />
+        <img src="/scenery2.jpg" alt="" className="h-full object-cover " />
       </div>
       <div className="w-full sm:w-1/2 lg:w-5/12 bg-zinc-800 flex justify-center items-center">
         <div className="w-full h-4/5 px-2 flex flex-col justify-center items-center text-zinc-300 ">

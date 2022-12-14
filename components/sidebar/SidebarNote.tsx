@@ -11,9 +11,18 @@ export type SidebarNoteProps = Note & {
 function SidebarNote(props: SidebarNoteProps) {
   const { currentNote, setCurrNote, deleteNote } = useNotesContext();
 
+  function handleDelete() {
+    const confirm = window.confirm(
+      "Are you sure you want to delete this note?"
+    );
+    if (confirm) {
+      deleteNote(props.note_id);
+    }
+  }
+
   return (
     <div
-      className={`px-2 py-1 mb-1 mr-[1px] shadow-sm rounded-sm flex justify-between cursor-pointer text-slate-200
+      className={`px-2 py-1 mb-1 mr-[1px] shadow-sm rounded-sm flex justify-between cursor-pointer text-slate-200 group
       ${
         props.isActive
           ? "bg-zinc-700"
@@ -36,10 +45,8 @@ function SidebarNote(props: SidebarNoteProps) {
       </div>
       <div className="flex items-center">
         <AiFillDelete
-          className="hover:text-red-600 text-lg text-zinc-400 cursor-pointer "
-          onClick={() => {
-            deleteNote(props.note_id);
-          }}
+          className="text-lg text-zinc-400 cursor-pointer group-hover:text-black hover:text-red-600 "
+          onClick={handleDelete}
         />
       </div>
     </div>

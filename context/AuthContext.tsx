@@ -50,13 +50,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const authToken = localStorage.getItem("authToken");
     if (authToken) {
       const authTokenJson = JSON.parse(authToken);
-      // console.log(authTokenJson.token);
+
       verifyUserWithToken(authTokenJson.token)
         .then((res) => {
           const user_id = res.data._id;
           const email = res.data.email;
           const name = res.data.name;
-          // console.log({ user_id, email, name });
           setUserDetails({ name, email, user_id });
           setLoggedIn(true);
         })
@@ -65,7 +64,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [isLoggedIn]);
 
   function logout(): void {
-    // console.log("Logging Out");
     localStorage.removeItem("authToken");
     setLoggedIn(false);
   }

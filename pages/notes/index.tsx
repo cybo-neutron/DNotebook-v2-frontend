@@ -37,14 +37,11 @@ function Home() {
 
   return (
     <div>
-      {/* Header */}
-
       {/* Body */}
       <div className="flex">
         <Sidebar allNotes={notes} />
         <MainContent {...currentNote} />
       </div>
-      {/* Footer */}
     </div>
   );
 }

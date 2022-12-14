@@ -13,7 +13,11 @@ function Sidebar({ allNotes }: SidebarProps) {
   const { logout } = useAuthContext();
 
   return (
-    <div className="bg-gradient-to-tl from-zinc-900 via-zinc-900 to-zinc-800 w-4/12 h-screen flex flex-col">
+    <div className="bg-gradient-to-tl from-zinc-900 via-zinc-900 to-zinc-800 w-4/12 lg:w-3/12 h-screen flex flex-col">
+      <div className="text-center text-white text-2xl font-extralight">
+        D<span className="text-orange-400 font-extrabold">Note</span>Book
+      </div>
+
       <button
         className="bg-gradient-to-l from-lime-600 to-lime-500 rounded-sm my-2 mx-2 "
         onClick={createNewNote}
